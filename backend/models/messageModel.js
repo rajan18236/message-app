@@ -5,12 +5,17 @@ const messageSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
-    recieverId: {
+    receiverId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
     textMessage: {
-        type: String
+        type:String,
+        required: true
+    },
+    conversationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'conversation'
     }
 }, { timestamps: true })
 

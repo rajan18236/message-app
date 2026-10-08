@@ -1,0 +1,60 @@
+const messageModel = require("../models/messageModel");
+const conversation = require("../models/conversationModel");
+
+const sendMessage = async (req, res) => {
+    try {
+        const { message } = req.body;
+        const { id: receiverId } = req.params;
+        const senderId = req.user._id
+
+        if (senderId == receiverId) {
+            return res.status(400).json({error: "YOU cannot send to yourself"})
+        }
+
+        let chats = await conversation.findOne({ users: { $all: [senderId, receiverId] } })
+        if (!chats) {
+            chats = await conversation.create({
+                users: [senderId, receiverId]
+            })
+        }
+        const newMessage = await messageModel.create({
+            senderId,
+            receiverId,
+            textMessage: message,
+            conversationId: chats._id
+        })
+        if (newMessage) {
+            chats.messages.push(newMessage._id)
+            await chats.save()
+        }
+
+        res.status(200).json({ newMessage })
+    } catch (error) {
+        console.error("Error : ", error.message);
+        return res.status(500).json({ error })
+    }
+}
+
+const getMessage = async (req, res) => {
+    try {
+        const senderId = req.user._id;
+        const receiverId = req.params.id;
+        console.log(receiverId, senderId);
+        ;
+        const chats = await conversation.findOne({
+            users: { $all: [senderId, receiverId] }
+        }).populate("messages");
+
+        if (!chats) return res.status(200).send([])
+        const message = chats.messages
+        res.status(200).send(
+            message
+        )
+    } catch (error) {
+        console.error("error:", error.message);
+        return res.status(500).json({ error })
+    }
+
+}
+
+module.exports = { sendMessage, getMessage }
