@@ -1,5 +1,6 @@
 const messageModel = require("../models/messageModel");
 const conversation = require("../models/conversationModel");
+const { io, getReceiverSocketId } = require("../Config/SocketIo.config")
 
 const sendMessage = async (req, res) => {
     try {
@@ -8,7 +9,7 @@ const sendMessage = async (req, res) => {
         const senderId = req.user._id
 
         if (senderId == receiverId) {
-            return res.status(400).json({error: "YOU cannot send to yourself"})
+            return res.status(400).json({ error: "YOU cannot send to yourself" })
         }
 
         let chats = await conversation.findOne({ users: { $all: [senderId, receiverId] } })
@@ -28,7 +29,18 @@ const sendMessage = async (req, res) => {
             await chats.save()
         }
 
-        res.status(200).json({ newMessage })
+        const receiverSocketId = getReceiverSocketId(receiverId)
+        const senderSocketId = getReceiverSocketId(senderId)
+
+        // Emit to both receiver and sender so both see the message in real-time
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage)
+        }
+        if (senderSocketId) {
+            io.to(senderSocketId).emit("newMessage", newMessage)
+        }
+
+        res.status(200).json({ success: true, newMessage })
     } catch (error) {
         console.error("Error : ", error.message);
         return res.status(500).json({ error })

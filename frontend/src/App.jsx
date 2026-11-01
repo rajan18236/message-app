@@ -5,6 +5,7 @@ import Register from './page/Register'
 import Home from './page/Home'
 import {Toaster} from 'react-hot-toast'
 import ChattingArea from './page/ChattingArea'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
         <Route path={"/"} element={<Home />} />
         <Route path={"/login"} element={<Login />} />
         <Route path={"/register"} element={<Register />} />
-        <Route path={"/chat"} element={<ChattingArea />} />
+        <Route path={"/chat"} element={<ProtectedRoute><ChattingArea /></ProtectedRoute>} />
       </Routes>
       <Toaster/>
     </div>

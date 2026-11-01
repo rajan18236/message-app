@@ -6,10 +6,9 @@ const database = require("./Config/Database.config")
 const dns = require("dns");
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
+const {app,server} = require("./Config/SocketIo.config")
 
 dns.setServers(["1.1.1.1", "8.8.8.8"])
-
-const app = express();
 
 require('dotenv').config()
 
@@ -30,7 +29,7 @@ app.use("/api/user", AuthRoute)
 app.use("/api/message", MessageRoute)
 database()
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("Server running  on port :", PORT);
 
 })

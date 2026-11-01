@@ -1,14 +1,19 @@
 import React, { useContext } from 'react'
 import { userAuthContext } from '../context/AuthContext'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TiHomeOutline } from "react-icons/ti";
 import { RiChatVoiceAiLine } from "react-icons/ri";
 
 const Login = () => {
-    const { signIn, setSignIn ,loginUser} = useContext(userAuthContext);
+    const { signIn, setSignIn, loginUser } = useContext(userAuthContext);
+    const navigate = useNavigate()
+
     const handleUserLogin = async (e) => {
         e.preventDefault();
-        await loginUser();
+        const result = await loginUser();
+        if (result?.success) {
+            navigate('/chat')
+        }
     }
 
     return (

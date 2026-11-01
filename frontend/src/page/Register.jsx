@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { userAuthContext } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TiHomeOutline } from "react-icons/ti";
 import { RiChatVoiceAiLine } from "react-icons/ri";
 
@@ -9,9 +9,14 @@ import { RiChatVoiceAiLine } from "react-icons/ri";
 const Register = () => {
 
     const { registerUser, setRegisterUser, signupUser } = useContext(userAuthContext);
+
+      const navigate = useNavigate()
     const handleUserSignup = async (e) => {
         e.preventDefault()
-        await signupUser()
+       const result =  await signupUser()
+        if(result?.success){
+            navigate('/chat')
+        }
     }
     return (
         <div id="app" className='w-full h-[90vh] flex justify-center items-center relative'>
