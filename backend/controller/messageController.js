@@ -35,6 +35,9 @@ const sendMessage = async (req, res) => {
         // Emit to both receiver and sender so both see the message in real-time
         if (receiverSocketId) {
             io.to(receiverSocketId).emit("newMessage", newMessage)
+            // Send a separate notification so the receiver can play a sound
+            // and track unread messages
+            io.to(receiverSocketId).emit("notification", { senderId, message: newMessage })
         }
         if (senderSocketId) {
             io.to(senderSocketId).emit("newMessage", newMessage)

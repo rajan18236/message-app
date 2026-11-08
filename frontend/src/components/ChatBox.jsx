@@ -9,9 +9,10 @@ import { SocketUserContext } from '../context/SocketContext';
 
 
 
+
 const ChatBox = () => {
   const { userMessages, setUserMessages, sendingMessage, setSendingMessage, funSendMessage, anotherUser, setAnotherUser } = useContext(SearchUserContext);
-  const { socket } = useContext(SocketUserContext);
+  const { socket, setActiveChat } = useContext(SocketUserContext);
   const scrollRef = useRef(null);
 
   // Scroll to bottom whenever messages change
@@ -39,6 +40,7 @@ const ChatBox = () => {
           <IoArrowBackOutline size={20} onClick={() => {
             setUserMessages([])
             setAnotherUser({})
+            setActiveChat(null)
           }
           } className='cursor-pointer' />
           <div className='text-xl'>

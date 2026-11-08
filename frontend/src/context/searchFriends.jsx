@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
+import { SocketUserContext } from './SocketContext';
 
 
 export const SearchUserContext = createContext()
@@ -13,6 +14,10 @@ const SearchFriendsContext = ({ children }) => {
     const [userMessages, setUserMessages] = useState([]);
     const [anotherUser, setAnotherUser] = useState({});
     const [sendingMessage, setSendingMessage] = useState("");
+
+    // Access socket context so we can mark a conversation as "active"
+    // (which also clears its unread badge)
+    const { setActiveChat } = useContext(SocketUserContext);
 
     const chatedWith = async () => { //Getting other user whom the person have chated with 
         try {
@@ -42,6 +47,9 @@ const SearchFriendsContext = ({ children }) => {
             console.log(result.messages);
             setUserMessages(result.messages)
             setAnotherUser(result.AnotherUser)
+            // Mark this conversation as active so incoming notifications
+            // don't increment the unread badge while it's open
+            setActiveChat(result.AnotherUser._id)
         } catch (error) {
             console.log(error.message);
         }
