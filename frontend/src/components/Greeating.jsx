@@ -13,7 +13,7 @@ const Greeating = () => {
             <h1 className="text-xl font-bold text-gray-800 ">
                 Hello, {user?.fullName}!
             </h1>
-            <p className='text-sm text-zinc-600'>Star chat with your Friends</p>
+            <p className='text-sm text-zinc-600'>Start chat with your Friends</p>
         </div>
     )
 }

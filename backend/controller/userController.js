@@ -5,6 +5,13 @@ const { isLoggedIn } = require("../middleware/isLoggedIn");
 const conversationModel = require("../models/conversationModel");
 const UserModel = require("../models/UserModel")
 
+const authCookieOptions = {
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+}
+
 const userRegister = async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
@@ -22,7 +29,7 @@ const userRegister = async (req, res) => {
             password: hashPassword,
         })
         const token = jwt.sign({ email, userId: newUser._id }, 'shhhhh');
-        res.cookie("token", token)
+        res.cookie("token", token, authCookieOptions)
         res.status(201).json({
             success: true,
             message: 'User register Successfully'
@@ -48,7 +55,7 @@ const userLogin = async (req, res) => {
         const result = await bcrypt.compare(password, userData.password)
         if (result) {
             const token = jwt.sign({ email, userId: userData._id }, 'shhhhh');
-            res.cookie("token", token)
+            res.cookie("token", token, authCookieOptions)
             res.status(201).json({
                 success: true,
                 message: 'User login Successfully'
@@ -65,7 +72,11 @@ const userLogin = async (req, res) => {
 
 const userLogout = async (req, res) => {
     try {
-        res.clearCookie("token")
+        res.clearCookie("token", {
+            httpOnly: authCookieOptions.httpOnly,
+            sameSite: authCookieOptions.sameSite,
+            secure: authCookieOptions.secure,
+        })
         res.status(200).json({ success: true, message: 'Logout successfully' })
 
     } catch (error) {

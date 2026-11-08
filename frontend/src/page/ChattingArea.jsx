@@ -5,7 +5,7 @@ import Greeating from '../components/Greeating'
 import { SearchUserContext } from '../context/searchFriends'
 
 const ChattingArea = () => {
-  const { userMessages, chatedWith } = useContext(SearchUserContext);
+  const { userMessages, anotherUser, chatedWith } = useContext(SearchUserContext);
 
   useEffect(() => {
     chatedWith()
@@ -14,7 +14,7 @@ const ChattingArea = () => {
   return (
     <div className=' flex max-h-screen bg-blue-200'>
       <FriendsList />
-      {userMessages && userMessages.length > 0 ? <ChatBox /> : <Greeating />}
+      {(userMessages && userMessages.length > 0) || (anotherUser && anotherUser.fullName) ? <ChatBox /> :<Greeating /> }
     </div>
   )
 }

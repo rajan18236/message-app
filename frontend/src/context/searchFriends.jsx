@@ -44,7 +44,6 @@ const SearchFriendsContext = ({ children }) => {
         try {
             const res = await axios.get(`http://localhost:3000/api/search/startingChating/${receiverId}`, { withCredentials: true })
             const result = res.data;
-            console.log(result.messages);
             setUserMessages(result.messages)
             setAnotherUser(result.AnotherUser)
             // Mark this conversation as active so incoming notifications
