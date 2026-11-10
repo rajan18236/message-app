@@ -15,7 +15,7 @@ dns.setServers(["1.1.1.1", "8.8.8.8"])
 require('dotenv').config()
 
 app.use(cors({
-        origin: 'http://localhost:5173',
+        origin: 'https://chat-app-0my2.onrender.com',
         credentials: true
     }))
 app.use(cookieParser());
