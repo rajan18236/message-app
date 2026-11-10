@@ -6,13 +6,7 @@ const app = express();
 const server = http.createServer(app);
 
 const { Server } = require("socket.io");
-const io = new Server(server, {
-    cors: {
-        origin: 'https://chat-app-0my2.onrender.com/',
-        methods: ["GET", 'POST', 'PUT', 'PATCH', 'DELETE'],
-        credentials: true
-    }
-});
+const io = new Server(server);
 
 const userSocketIdMap = {}
 const getReceiverSocketId = (receiverId) => {
