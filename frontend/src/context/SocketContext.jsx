@@ -16,8 +16,8 @@ const SocketContext = ({ children}) => {
     const activeChatRef = useRef(null);
 
     const playNotificationSound = () => {
-        const audio = new Audio('/notification.mp3');
-        audio.volume = 1;
+        const audio = new Audio('/notification.wav');
+        audio.volume = 0.5;
         audio.play().catch((err) => console.log("Audio play blocked:", err.message));
     };
 
