@@ -50,7 +50,7 @@ const SocketContext = ({ children}) => {
         }
 
         // Establish socket connection
-        const newSocket = io("http://localhost:3000", {
+        const newSocket = io("https://chat-app-0my2.onrender.com", {
             query: {
                 userId: user._id
             }
