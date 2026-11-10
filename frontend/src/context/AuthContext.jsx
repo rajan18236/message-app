@@ -24,7 +24,7 @@ const AuthContext = ({ children }) => {
     // Checks whether the user is logged in by verifying the JWT cookie on the server
     const checkAuth = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/user/verify', { withCredentials: true })
+            const res = await axios.get('https://chat-app-0my2.onrender.com/api/user/verify', { withCredentials: true })
             setIsAuthenticated(true)
             setUser(res.data.user)
         } catch (error) {
@@ -40,7 +40,7 @@ const AuthContext = ({ children }) => {
 
     const signupUser = async () => {
         try {
-            const res = await axios.post('http://localhost:3000/api/user/register', {
+            const res = await axios.post('https://chat-app-0my2.onrender.com/api/user/register', {
                 fullName: registerUser.fullName,
                 email: registerUser.email,
                 password: registerUser.password,
@@ -67,7 +67,7 @@ const AuthContext = ({ children }) => {
 
     const loginUser = async () => {
         try {
-            const res = await axios.post('http://localhost:3000/api/user/login', {
+            const res = await axios.post('https://chat-app-0my2.onrender.com/api/user/login', {
                 email: signIn.email,
                 password: signIn.password,
             }, { withCredentials: true })
@@ -89,7 +89,7 @@ const AuthContext = ({ children }) => {
 
     const logoutUser = async () => {
         try {
-            await axios.get('http://localhost:3000/api/user/logout', { withCredentials: true })
+            await axios.get('https://chat-app-0my2.onrender.com/api/user/logout', { withCredentials: true })
             setIsAuthenticated(false)
             setUser(null)
             toast.success("Logged out successfully")
