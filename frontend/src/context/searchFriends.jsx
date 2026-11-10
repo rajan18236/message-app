@@ -21,7 +21,7 @@ const SearchFriendsContext = ({ children }) => {
 
     const chatedWith = async () => { //Getting other user whom the person have chated with 
         try {
-            const res = await axios.get(`http://localhost:3000/api/search/chatedWith`, { withCredentials: true })
+            const res = await axios.get(`https://chat-app-0my2.onrender.com/api/search/chatedWith`, { withCredentials: true })
             const result = res.data;
             setFriends(result)
         } catch (error) {
@@ -31,7 +31,7 @@ const SearchFriendsContext = ({ children }) => {
 
     const searchingUser = async () => { // Search Other friends 
         try {
-            const res = await axios.get(`http://localhost:3000/api/search/name/${userName}`, { withCredentials: true })
+            const res = await axios.get(`https://chat-app-0my2.onrender.com/api/search/name/${userName}`, { withCredentials: true })
             const result = res.data;
             // console.log(result);
             setSearchFriends(result)
@@ -42,7 +42,7 @@ const SearchFriendsContext = ({ children }) => {
 
     const startChating = async (receiverId) => { // Fetching conversation between LoggedIn person and receiverId (another person id)
         try {
-            const res = await axios.get(`http://localhost:3000/api/search/startingChating/${receiverId}`, { withCredentials: true })
+            const res = await axios.get(`https://chat-app-0my2.onrender.com/api/search/startingChating/${receiverId}`, { withCredentials: true })
             const result = res.data;
             setUserMessages(result.messages)
             setAnotherUser(result.AnotherUser)
@@ -56,7 +56,7 @@ const SearchFriendsContext = ({ children }) => {
 
     const funSendMessage = async (receiverId) => {
         try {
-            const res = await axios.post(`http://localhost:3000/api/message/send/${receiverId}`, {
+            const res = await axios.post(`https://chat-app-0my2.onrender.com/api/message/send/${receiverId}`, {
                 message: sendingMessage
             }, { withCredentials: true })
             // if (res.data.success) return toast.success("successfull to send messages")
